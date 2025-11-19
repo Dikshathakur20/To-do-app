@@ -6,23 +6,28 @@ function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
 
+  const API = "https://to-do-app-backend-1-4g4j.onrender.com/api/todos";
+
   // Fetch tasks
   useEffect(() => {
-    axios.get("http://localhost:5000/api/todos")
-      .then(res => setTodos(res.data));
+    axios.get(API)
+      .then(res => setTodos(res.data))
+      .catch(err => console.log(err));
   }, []);
 
   // Add task
   const addTask = () => {
-    axios.post("http://localhost:5000/api/todos", { task })
-      .then(res => setTodos([...todos, res.data]));
+    axios.post(API, { task })
+      .then(res => setTodos([...todos, res.data]))
+      .catch(err => console.log(err));
     setTask("");
   };
 
   // Delete task
   const deleteTask = (id) => {
-    axios.delete(`http://localhost:5000/api/todos/${id}`)
-      .then(() => setTodos(todos.filter(t => t._id !== id)));
+    axios.delete(`${API}/${id}`)
+      .then(() => setTodos(todos.filter(t => t._id !== id)))
+      .catch(err => console.log(err));
   };
 
   return (
